@@ -1,0 +1,7 @@
+<select class="custom-select mb-4" name="accidentals">
+
+	<option selected>Open this select menu</option>
+	{% for note in notes %}
+		<option value="{{note.pk}}">{{note.name}}</option>
+	{%endfor%}
+</select>

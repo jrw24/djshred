@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<select class="custom-select mb-4" 
+	name="accidentals"
+	placeholder="sharps"
+	hx-get="{% url 'notes' %}"
+	hx-trigger="change"
+	hx-target="#notes">
+
+	<option selected>Open this select menu</option>
+	{% for accidental in accidentals %}
+		<option value="{{accidental.pk}}">{{accidental.name}}</option>
+	{% endfor %}
+</select>
+
+<div id="notes">
+	{% include 'partials/notes.html' %}
+</div>
+
+<div class='mb-3'>
+	<label for="tuningInput" class="form-label">Tuning</label>
+	<input type="text" class="form-control" placeholder="EADGBE">
+</div>
+
+
+<select class="form-select">
+	<option selected>Select a scale</option>
+	{% for scale in scales %}
+		<option value="{{scale.pk}}">{{scale.name}}</option>
+	{%endfor%}
+
+</select> 
+
+
+
+{% endblock %}

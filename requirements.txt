@@ -1,0 +1,4 @@
+Django~=5.1.5
+django-extensions
+matplotlib>=3.10
+shredderscales>=0.1.4
