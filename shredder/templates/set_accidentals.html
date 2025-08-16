@@ -1,36 +1,68 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<select class="custom-select mb-4" 
-	name="accidentals"
-	placeholder="sharps"
-	hx-get="{% url 'notes' %}"
-	hx-trigger="change"
-	hx-target="#notes">
 
-	<option selected>Open this select menu</option>
-	{% for accidental in accidentals %}
-		<option value="{{accidental.pk}}">{{accidental.name}}</option>
-	{% endfor %}
-</select>
+<!-- <form hx-post="{% url 'run-shredder' %}"> -->
+<form action="" method="post">
+	{% csrf_token %}
+	<div class="row">
+		<div class="col-2 col-md-2">
+			<!-- <select class="form-select mb-4"  -->
+			<select class="form-select mb-4"
+				name="accidentals"
+				placeholder="sharps"
+				hx-get="{% url 'notes' %}"
+				hx-trigger="change"
+				hx-target="#notes">
 
-<div id="notes">
-	{% include 'partials/notes.html' %}
-</div>
+				<option selected>accidentals</option>
+				{% for acci in accidentals %}
+					<option value="{{acci.pk}}">{{acci.name}}</option>
+				{% endfor %}
+			</select>
+		</div>
 
-<div class='mb-3'>
-	<label for="tuningInput" class="form-label">Tuning</label>
-	<input type="text" class="form-control" placeholder="EADGBE">
-</div>
+		<div class="col-1 col-md-1">
 
+			<div id="notes">
+				{% include 'partials/notes.html' %}
+			</div>
+		</div>
+			
+		<div class="col-3 col-md-3">
+			<select class="form-select mb-4"
+				name="scale">
+				<option selected>Select a scale</option>
+				{% for scale in scales %}
+					<option value="{{scale.name}}">{{scale.name}}</option>
+				{%endfor%}
+			</select>
+		</div>
 
-<select class="form-select">
-	<option selected>Select a scale</option>
-	{% for scale in scales %}
-		<option value="{{scale.pk}}">{{scale.name}}</option>
-	{%endfor%}
+		<div class="col-2 col-md-2">
+			<select class="form-select mb-4"
+				name="tuning">
+				<option selected>Select a tuning</option>
+				{% for tune in tunings %}
+					<option value="{{tune.name}}">{{tune.name}}</option>
+				{%endfor%}	
+			</select>
+		</div>
+			<!-- <div class='mb-3'>
+				<label for="tuningInput" class="form-label">Tuning</label>
+				<input type="text" class="form-control" placeholder="EADGBE">
+			</div> -->
 
-</select> 
+		<div class="col-2 col-md-2 align-self-start">
+			<button class="btn btn-success me-2" 
+				type="submit"
+				name="shredder_run"
+				>Shred</button>
+		</div>	
+
+			
+	</div>
+</form>
 
 
 

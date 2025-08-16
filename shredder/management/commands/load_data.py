@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from shredder.models import Accidentals, Notes, Scales
+from shredder.models import Accidentals, Notes, Scales, Tunings
 from shredderscales.scales import Scales as sc
 
 class Command(BaseCommand):
@@ -73,6 +73,18 @@ class Command(BaseCommand):
 
 		for scale in scales:
 			Scales.objects.create(name=scale)
+
+		## for now:
+		tunings = [
+			'EADGBE',
+			'DADGBE',
+			'CGCFAD',
+			'D#G#C#F#A#D#',
+			'EbAbDbGbBbEb'
+		]
+
+		for tune in tunings:
+			Tunings.objects.create(name=tune)
 
 		
 

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mb-4 text-primary">Enter Tuning</h1>
+
+<div id="contact-forms">
+	{% include 'partials/form.html' %}
+</div>
+
+<div class="my-4">
+	<button type="button" class="btn btn-success me-2"
+		hx-get="{% url 'create-tuning' %}" 
+		hx-target="#contact-forms" 
+		hx-swap="beforeend">+ Add Tuning</button>
+</div>
+
+{{form.as_p}}
+
+
+{% endblock %}

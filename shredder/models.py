@@ -23,12 +23,25 @@ class Scales(models.Model):
 	def __str__(self):
 		return self.name
 
-class shredderInput(models.Model):
+class Tunings(models.Model):
 	name = models.CharField(max_length=128)
-	accidentals = models.CharField(max_length=128)
-	key = models.CharField(max_length=128)
-	tuning = models.CharField(max_length=128)
-	scale = models.CharField(max_length=128)
 
 	def __str__(self):
-		return self.name 
+		return self.name
+
+class tuningInput(models.Model):
+	name = models.CharField(default='EADGBE', max_length=128)
+	tuning = models.CharField(max_length=128)
+
+	def __str__(self):
+		return self.name
+		# return f'{self.key}_{self.scale}_{self.tuning}' 
+
+class shredderInput(models.Model):
+	accidentals = models.CharField(max_length=128)
+	key = models.CharField(max_length=128)
+	scale = models.CharField(max_length=128)
+	tuning = models.CharField(max_length=128)
+
+	def __str__(self):
+		return f'{self.key}_{self.scale}_{self.tuning}'
