@@ -1,7 +1,13 @@
 <select class="form-select mb-4" name="key">
 
-	<option selected>key</option>
-	{% for note in notes %}
+	{% if shredder_run %}
+		<option value="{{shredder_run.key}}" selected>{{shredder_run.key}} </option>
+
+	{% else %}
+		<option selected>key</option>
+	<!-- <option selected>key</option> -->
+	{% endif %}
+	{% for note in notes_defaults %}
 		<option value="{{note.name}}">{{note.name}}</option>
 		<!-- <option value="{{note.id}}">{{note.id}}</option> -->
 	{%endfor%}

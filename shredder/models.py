@@ -38,7 +38,7 @@ class tuningInput(models.Model):
 		# return f'{self.key}_{self.scale}_{self.tuning}' 
 
 class shredderInput(models.Model):
-	accidentals = models.CharField(max_length=128)
+	accidentals_defaults = models.CharField(max_length=128)
 	key = models.CharField(max_length=128)
 	scale = models.CharField(max_length=128)
 	tuning = models.CharField(max_length=128)

@@ -2,20 +2,18 @@
 
 {% block content %}
 
-<h1 class="mb-4 text-primary">Enter Tuning</h1>
+<h1 class="mb-4 text-primary">Shredder-scales!</h1>
 
-<div id="contact-forms">
-	{% include 'partials/form.html' %}
-</div>
+<div id="shredder_inputs">
+	{% include 'partials/shredder_input.html' %}
+</div> 
 
-<div class="my-4">
-	<button type="button" class="btn btn-success me-2"
-		hx-get="{% url 'create-tuning' %}" 
-		hx-target="#contact-forms" 
-		hx-swap="beforeend">+ Add Tuning</button>
-</div>
+<ul id='shredder-input-vals'>
+	{% include 'partials/run_shredder.html' %}
+</ul>
 
-{{form.as_p}}
-
+<!-- <div id='simple_image'>
+	{% include 'partials/image_part.html' %}
+</div> -->
 
 {% endblock %}
