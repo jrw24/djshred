@@ -1,7 +1,8 @@
 <select class="form-select mb-4" name="key">
 
 	{% if shredder_run %}
-		<option value="{{shredder_run.key}}" selected>{{shredder_run.key}} </option>
+		<!-- <option value="{{shredder_run.key}}" selected>{{shredder_run.key}} </option> -->
+		<option value="{{shredder_run.current_key}}" selected>{{shredder_run.current_key}}</option>
 
 	{% else %}
 		<option selected>key</option>

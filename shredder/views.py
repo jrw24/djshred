@@ -4,6 +4,7 @@ from .forms import tuningInputForm, shredderInputForm
 from .models import Accidentals, Notes, Scales, Tunings, tuningInput, shredderInput
 from matplotlib import pyplot as plt
 import mpld3
+from shredderscales import shredder
 
 
 
@@ -35,11 +36,11 @@ def index(request):
 			shredder_run = form.cleaned_data
 			## define sharps or flats:
 			if shredder_run['accidentals_defaults'] == '1':
-				shredder_run['sharps'] = 'sharps'
+				shredder_run['flats'] = 'sharps'
 			elif shredder_run['accidentals_defaults'] == '2':
-				shredder_run['sharps'] = 'flats'
+				shredder_run['flats'] = 'flats'
 			else:
-				print('sharps or flats not set!')
+				shredder_run['flats'] = 'auto'
 
 			print(' --- shredder run dict ---')
 			for s in shredder_run:
@@ -50,15 +51,26 @@ def index(request):
 
 			### plotting test
 
-			fig, ax = plt.subplots(figsize=(4,4))
-			x_values = [1, 2, 3, 4]
-			y_values = [2, 4, 1, 5]
+			# fig, ax = plt.subplots(figsize=(4,4))
+			# x_values = [1, 2, 3, 4]
+			# y_values = [2, 4, 1, 5]
 
-			ax.plot(x_values, y_values)
-			html_fig = mpld3.fig_to_html(fig)
+			# ax.plot(x_values, y_values)
+			# html_fig = mpld3.fig_to_html(fig)
+			# context['figure'] = html_fig
+
+			### shredder plotting 
+
+
+			html_fig = shredder.main(
+				scale = shredder_run['scale'],
+				key = shredder_run['key'],
+				tuning= shredder_run['tuning'],
+				flats = shredder_run['flats'],
+				django = '1',
+				fretnumber = '24')
+
 			context['figure'] = html_fig
-
-			### 
 
 		else:
 			print('ERRORS FOUND !!!')
@@ -66,7 +78,7 @@ def index(request):
 			## create new partial to handle completeion of form 
 
 			# print('accidentals run')
-	print('final_context: ', context)
+	# print('final_context: ', context)
 
 	# print('*** loading plot! ***')
 	# print('*** loading plot! ***')
@@ -195,6 +207,7 @@ def accidentals(request):
 	return render(request, 'set_accidentals.html', context)
 
 def notes(request):
+	print('-- starting notes request --')
 	accidentals_defaults = request.GET.get('accidentals_defaults')
 	print('accidentals_defaults:', accidentals_defaults)
 
@@ -203,9 +216,11 @@ def notes(request):
 	print('notes_defaults:', notes_defaults)
 	context = {'notes_defaults': notes_defaults}
 	shredder_run = request.GET.get('shredder_run')
+	print('shredder_run', shredder_run)
 	if shredder_run is not None:
 		current_key = shredder_run['key']
 		context['current_key'] = current_key
+	print('notes context-> :', context)
 	return render(request, 'partials/notes.html', context)
 
 

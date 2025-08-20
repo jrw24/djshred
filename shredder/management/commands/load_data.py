@@ -6,7 +6,11 @@ class Command(BaseCommand):
 	help = 'Load Accidentals and Notes'
 
 	def handle(self, *args, **kwargs):
+		## remove stored Notes, Scales, and Tunings on loading
 		Notes.objects.all().delete()
+		Scales.objects.all().delete()
+		Tunings.objects.all().delete()
+
 		accidentals_names = [
 			'sharps', 'flats'
 		]
@@ -57,22 +61,23 @@ class Command(BaseCommand):
 		for note in flat_notes:
 			Notes.objects.create(name=note, accidentals=flats)
 		## when shredderscales is updated -- use this 250813
-		# scales = list(sc.available_scales.keys())
+		avail_scales = list(sc.available_scales.keys())
 		# print(scales)
 
-		## for now:
-		scales = [
-			'chromatic',
-			'major',
-			'minor',
-			'harmonic-minor',
-			'pentatonic-major',
-			'pentatonic-minor',
-			'phrygian-major'
-		]
+		# ## for now:
+		# scales = [
+		# 	'chromatic',
+		# 	'major',
+		# 	'minor',
+		# 	'harmonic-minor',
+		# 	'pentatonic-major',
+		# 	'pentatonic-minor',
+		# 	'phrygian-major'
+		# ]
 
-		for scale in scales:
-			Scales.objects.create(name=scale)
+		for s in avail_scales:
+			print(s)
+			Scales.objects.create(name=s)
 
 		## for now:
 		tunings = [
