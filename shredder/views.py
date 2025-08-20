@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib.sessions.backends.db import SessionStore
 from .forms import tuningInputForm, shredderInputForm
-from .models import Accidentals, Notes, Scales, Tunings, tuningInput, shredderInput
+from .models import Accidentals, Notes, Scales, Tunings, tuningInput, shredderInput, Modes
 from matplotlib import pyplot as plt
 import mpld3
 from shredderscales import shredder
@@ -14,6 +15,7 @@ def index(request):
 	accidentals_defaults = Accidentals.objects.all()
 	scales_defaults = Scales.objects.all()
 	tunings_defaults = Tunings.objects.all()
+	modes_defaults = Modes.objects.all()
 	accidentals = accidentals_defaults
 	# print(accidentals_defaults)
 	# print(accidentals)
@@ -21,7 +23,8 @@ def index(request):
 		'accidentals_defaults': accidentals_defaults,
 		'scales_defaults': scales_defaults,
 		'tunings_defaults': tunings_defaults,
-		'accidentals' : accidentals
+		'accidentals' : accidentals,
+		'modes_defaults' : modes_defaults
 		}
 
 	if request.method == 'POST':
@@ -67,6 +70,7 @@ def index(request):
 				key = shredder_run['key'],
 				tuning= shredder_run['tuning'],
 				flats = shredder_run['flats'],
+				mode = shredder_run['mode'],
 				django = '1',
 				fretnumber = '24')
 
@@ -78,7 +82,10 @@ def index(request):
 			## create new partial to handle completeion of form 
 
 			# print('accidentals run')
-	# print('final_context: ', context)
+	print('final_context: ')
+	for k,v in context.items():
+		if k != 'figure':
+			print(k, v)
 
 	# print('*** loading plot! ***')
 	# print('*** loading plot! ***')
@@ -211,6 +218,13 @@ def notes(request):
 	accidentals_defaults = request.GET.get('accidentals_defaults')
 	print('accidentals_defaults:', accidentals_defaults)
 
+	print('-- setting session store --')
+	s = SessionStore()
+	print(dir(s))
+	print(s.keys())
+	if 'shredder_run' in s:
+		shredrun = s['shredder_run']
+		print('shredrun', shredrun)
 
 	notes_defaults = Notes.objects.filter(accidentals=accidentals_defaults)
 	print('notes_defaults:', notes_defaults)
@@ -223,6 +237,32 @@ def notes(request):
 	print('notes context-> :', context)
 	return render(request, 'partials/notes.html', context)
 
+def notes_simple(request):
+	print('-- starting notes simple request --')
+	accidentals_defaults = request.GET.get('accidentals_defaults')
+	print('accidentals_defaults:', accidentals_defaults)
+
+	key_test = request.GET.get('key')
+	print( ' ------------------ ')
+	print(key_test, '<--- key test')
+	print( ' ------------------ ')
+	# print('-- setting session store --')
+	# s = SessionStore()
+	# print(dir(s))
+	# print(s.keys())
+	# if 'shredder_run' in s:
+	# 	shredrun = s['shredder_run']
+	# 	print('shredrun', shredrun)
+
+	notes_defaults = Notes.objects.filter(accidentals=accidentals_defaults)
+	print('notes_defaults:', notes_defaults)
+	context = {'notes_defaults': notes_defaults}
+	shredder_run = request.GET.get('shredder_run')
+	print('shredder_run', shredder_run)
+	if key_test is not None:
+		context['current_key'] = key_test
+	print('notes context-> :', context)
+	return render(request, 'partials/notes_simple.html', context)
 
 def get_tuning(request):
 	#

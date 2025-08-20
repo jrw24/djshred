@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from shredder.models import Accidentals, Notes, Scales, Tunings
+from shredder.models import Accidentals, Notes, Scales, Tunings, Modes
 from shredderscales.scales import Scales as sc
 
 class Command(BaseCommand):
@@ -10,6 +10,7 @@ class Command(BaseCommand):
 		Notes.objects.all().delete()
 		Scales.objects.all().delete()
 		Tunings.objects.all().delete()
+		Modes.objects.all().delete()
 
 		accidentals_names = [
 			'sharps', 'flats'
@@ -60,36 +61,36 @@ class Command(BaseCommand):
 
 		for note in flat_notes:
 			Notes.objects.create(name=note, accidentals=flats)
-		## when shredderscales is updated -- use this 250813
+
+		## load scales
 		avail_scales = list(sc.available_scales.keys())
-		# print(scales)
-
-		# ## for now:
-		# scales = [
-		# 	'chromatic',
-		# 	'major',
-		# 	'minor',
-		# 	'harmonic-minor',
-		# 	'pentatonic-major',
-		# 	'pentatonic-minor',
-		# 	'phrygian-major'
-		# ]
-
 		for s in avail_scales:
 			print(s)
 			Scales.objects.create(name=s)
 
-		## for now:
+		## load tunings for now:
 		tunings = [
 			'EADGBE',
 			'DADGBE',
 			'CGCFAD',
 			'D#G#C#F#A#D#',
-			'EbAbDbGbBbEb'
+			'EbAbDbGbBbEb',
+			'BEADGBE',
+			'GCGCFAD',
+			'G#D#G#C#F#A#D#',
+			'F#BEADGBE'
 		]
 
 		for tune in tunings:
 			Tunings.objects.create(name=tune)
 
 		
+		## load modes:
+		modes = [
+			'note',
+			'degree',
+			'interval'
+		]
 
+		for m in modes:
+			Modes.objects.create(name=m)
