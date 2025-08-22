@@ -1,4 +1,5 @@
 Django~=5.1.5
 django-extensions
 matplotlib>=3.10
-shredderscales>=0.1.4
+shredderscales>=1.0.2
+mpld3
