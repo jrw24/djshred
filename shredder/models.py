@@ -36,13 +36,13 @@ class Modes(models.Model):
 	def __str__(self):
 		return self.name
 
-class tuningInput(models.Model):
-	name = models.CharField(default='EADGBE', max_length=128)
-	tuning = models.CharField(max_length=128)
+# class tuningInput(models.Model):
+# 	name = models.CharField(default='EADGBE', max_length=128)
+# 	tuning = models.CharField(max_length=128)
 
-	def __str__(self):
-		return self.name
-		# return f'{self.key}_{self.scale}_{self.tuning}' 
+# 	def __str__(self):
+# 		return self.name
+# 		# return f'{self.key}_{self.scale}_{self.tuning}' 
 
 class shredderInput(models.Model):
 	accidentals_defaults = models.CharField(max_length=128)
