@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mb-4 text-primary">Shredder-scales!</h1>
+
+<div id="shredder_inputs">
+	{% include 'partials/shredder_input_simple.html' %}
+</div> 
+
+<ul id='shredder-input-vals'>
+	{% include 'partials/run_shredder.html' %}
+</ul>
+
+{% endblock %}

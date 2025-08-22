@@ -1,0 +1,97 @@
+<form id="shredder-form" action="" method="post">
+<!-- <form action="shredder_inputs" method="post"> -->
+
+	{% csrf_token %}
+	<div class="row">
+		<div class="col-2 col-md-2">
+			<label >Accidentals</label>
+			
+			{% if shredder_run %}
+				<select class="form-select mb-4"
+					name="accidentals_defaults"
+					hx-get="{% url 'notes_simple'%}"
+					hx-trigger="change, load"
+					hx-target="#keys"
+					hx-vals='{"key": "{{shredder_run.key}}"}'>
+
+					<option value="{{shredder_run.accidentals_defaults}}" selected>{{shredder_run.flats}}</option>
+					{% for acci in accidentals_defaults %}
+						{% if acci.name != shredder_run.flats %}
+							<option value="{{acci.pk}}">{{acci.name}}</option>
+						{% endif %}
+					{% endfor %}
+				</select>
+			{% else %}
+				<select class="form-select mb-4"
+					name="accidentals_defaults"
+					hx-get="{% url 'notes_simple'%}"
+					hx-trigger="change, load"
+					hx-target="#keys">
+					<option value="1">sharps</option>
+					<option value="2">flats</option>
+				</select>
+			{% endif %}
+
+		</div>
+
+		<div class="col-1 col-md-1">
+
+			<div id="keys">
+				{% include 'partials/notes_simple.html' %}
+			</div>
+
+		</div>
+			
+		<div class="col-3 col-md-3">
+			<label>Scale</label>
+			<select class="form-select mb-4"
+				name="scale">
+				{% if shredder_run %}
+					<option value="{{shredder_run.scale}}" selected>{{shredder_run.scale}} </option>
+				{% else %}
+					<option selected>Select a scale</option>				
+				{% endif %}
+				{% for scale in scales_defaults %}
+					<option value="{{scale.name}}">{{scale.name}}</option>
+				{%endfor%}
+			</select>
+		</div>
+
+		<div class="col-2 col-md-2">
+			<label>Tuning</label>
+			<select class="form-select mb-4"
+				name="tuning">
+				{% if shredder_run %}
+					<option value="{{shredder_run.tuning}}" selected>{{shredder_run.tuning}} </option>
+				{% else %}
+					<option selected>Select a tuning</option>
+				{% endif %}
+				{% for tune in tunings_defaults %}
+					<option value="{{tune.name}}">{{tune.name}}</option>
+				{%endfor%}	
+			</select>
+		</div>
+		
+		<div class="col-2 col-md-2">
+				<label>Mode</label>
+				<select class="form-select mb-4"
+				name="mode">
+				{% if shredder_run %}
+					<option value="{{shredder_run.mode}}" selected>{{shredder_run.mode}} </option>
+				{% else %}
+					<option selected>note</option>
+				{% endif %}
+				{% for m in modes_defaults %}
+					<option value="{{m.name}}">{{m.name}}</option>
+				{%endfor%}	
+			</select>
+		</div>
+
+ 		<div class="col-2 col-md-2 align-self-center">
+			<button class="btn btn-success me-2" 
+				type="submit"
+				name="shredder_run"
+				>Shred</button>
+		</div>	
+	</div>
+</form>

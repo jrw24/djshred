@@ -1,0 +1,11 @@
+<label>Key</label>
+<select class="form-select mb-4" name="key">
+	{% if current_key %}
+		<option value="{{current_key}}" selected>{{current_key}}</option>
+	{% else %}
+		<option selected>key</option>
+	{% endif %}
+	{% for note in notes_defaults %}
+		<option value="{{note.name}}">{{note.name}}</option>
+	{%endfor%}
+</select>
