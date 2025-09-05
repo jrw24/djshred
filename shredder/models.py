@@ -36,20 +36,17 @@ class Modes(models.Model):
 	def __str__(self):
 		return self.name
 
-# class tuningInput(models.Model):
-# 	name = models.CharField(default='EADGBE', max_length=128)
-# 	tuning = models.CharField(max_length=128)
-
-# 	def __str__(self):
-# 		return self.name
-# 		# return f'{self.key}_{self.scale}_{self.tuning}' 
-
 class shredderInput(models.Model):
 	accidentals_defaults = models.CharField(max_length=128)
 	key = models.CharField(max_length=128)
 	scale = models.CharField(max_length=128)
 	tuning = models.CharField(max_length=128, default='EADGBE')
+	tuned = models.CharField(max_length=128)
 	mode = models.CharField(max_length=24, default='note')
+	scale_name = models.CharField(max_length=128, blank=True)
+	scale_intervals = models.CharField(max_length=128, blank=True)
+	screenWidth = models.CharField(max_length=24)
+	screenHeight = models.CharField(max_length=24)
 
 	def __str__(self):
 		return f'{self.key}_{self.scale}_{self.tuning}'

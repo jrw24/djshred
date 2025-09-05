@@ -1,13 +1,35 @@
-<!-- <h1 class="mb-4 text-primary">Shredder-Run!</h1> -->
+{% if shredder_run %}
 
+	<div id='fig_container'
+		class='container-fluid'>
+		{{figure|safe}}
+	</div>
 
-<!-- <li>{{ accidentals.name }} - {{ key.name }} - {{ shredder_run.scale }} - {{ shredder_run.tuning }}</li> -->
+	<div id='scale_table'>
+		<table class="table mt-4">
+			<tbody> 
+				<tr>
+					<th scope="row">Notes:</th>
+					{% for n in scale_notes %}
+						<td>{{n}}</td>
+					{% endfor %}
+				</tr>
+				<tr>
+					<th scope="row">Degrees:</th>
+					{% for d in scale_degrees %}
+						<td>{{d}}</td>
+					{% endfor %}
+				</tr>
+				<tr>
+					<th scope="row">Intervals:</th>
+					{% for i in scale_ints %}
+						<td>{{i}}</td>
+					{% endfor %}
+				</tr>
 
-<!-- <li>{{ shredder_run.sharps }} - {{ shredder_run.key }} - {{ shredder_run.scale }} - {{ shredder_run.tuning }}</li> -->
+			</tbody>
+		</table>
 
+	</div>
 
-<div = id='fig_container'>
-	{{figure|safe}}
-</div>
-
-<!-- <img src="data:image/png;base64,{{ graphic|safe }}"> -->
+{% endif %}

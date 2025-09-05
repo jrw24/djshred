@@ -25,6 +25,7 @@ def index(request):
 		}
 
 	if request.method == 'POST':
+		# print('screenWidth', screenWidth)
 		form =  shredderInputForm(request.POST or None)
 		if form.is_valid():
 			shredder_run = form.cleaned_data
@@ -39,21 +40,61 @@ def index(request):
 			context['shredder_run'] = shredder_run	
 
 			### shredder plotting 
-			html_fig = shredder.main(
+			html_frag, scale_info = shredder.main(
 				scale = shredder_run['scale'],
 				key = shredder_run['key'],
-				tuning= shredder_run['tuning'],
+				tuning= shredder_run['tuned'],
 				flats = shredder_run['flats'],
 				mode = shredder_run['mode'],
 				django = '1',
-				fretnumber = '24')
+				fretnumber = '24',
+				scale_name = shredder_run['scale_name'],
+				scale_intervals = shredder_run['scale_intervals'],
+				screenWidth = shredder_run['screenWidth'],
+				screenHeight = shredder_run['screenHeight'] )
+
+			### add css style to html figure output
+			html_fig = f'''
+				<style type="text/css">
+					#shredderfig {{
+					width: 100%;
+					height: auto;
+					}}
+				div#shredderfig {{ text-align: center}}
+				</style>
+
+				{html_frag}
+				'''
 
 			context['figure'] = html_fig
-
+			context['scale_notes'] = scale_info[0]
+			context['scale_degrees'] = scale_info[1]
+			context['scale_ints'] = scale_info[2]
+			context['scale_notes_string'] = ', '.join(scale_info[0])
+			context['scale_degrees_string'] = ', '.join(scale_info[1])
+			context['scale_ints_string'] = ', '.join(scale_info[2])
+			# print(html_fig)
 		else:
 			print('ERRORS FOUND !!!')
 			print(form.errors)
 			## create new partial to handle completeion of form 
+	else: ## plot empty fretboard
+		pass
+		# html_frag = shredder.plot_empty_fretboard()
+		# html_fig = f'''
+		# 	<style type="text/css">
+		# 		#emptyfretboard {{
+		# 		width: 100%;
+		# 		height: auto;
+		# 		}}
+		# 	div#shredderfig {{ text-align: center}}
+		# 	</style>
+
+		# 	{html_frag}
+		# 	'''
+
+		# context['figure'] = html_fig
+
 	return render(request, 'index.html', context)
 
 def notes_simple(request):
@@ -66,3 +107,25 @@ def notes_simple(request):
 		context['current_key'] = key_test
 	return render(request, 'partials/notes_simple.html', context)
 
+def tuned(request):
+	tuned = request.GET.get('tuning')
+	current_tune = request.GET.get('current_tune')
+	context = {'tuned': tuned}
+	if current_tune is not None:
+		context['current_tune'] = current_tune
+	return render(request, 'partials/tuned.html', context)
+
+
+def custom_scale(request):
+	scale_entry = request.GET.get('scale')
+	scale_name = request.GET.get('scale_name')
+	scale_intervals = request.GET.get('scale_intervals')
+
+	context = {'scale_entry': scale_entry}
+	if scale_name is not None:
+		context['scale_name'] = scale_name
+	if scale_intervals is not None:
+		mod_scale_intervals = scale_intervals.replace(' ','')
+		context['scale_intervals'] = mod_scale_intervals
+
+	return render(request, 'partials/custom_scale.html', context)

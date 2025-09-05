@@ -2,14 +2,51 @@
 
 {% block content %}
 
-<h1 class="mb-4 text-primary">Shredder-scales!</h1>
+<h1 class="mb-2 text-center">Shredder-scales</h1>
+<h4 class="mb-4 text-center">Guitar scales for any tuning</h4> 
 
 <div id="shredder_inputs">
 	{% include 'partials/shredder_input_simple.html' %}
 </div> 
 
-<ul id='shredder-input-vals'>
+<div id='shredder-input-vals'>
 	{% include 'partials/run_shredder.html' %}
-</ul>
+</div>
+
+<h5 class="mb-2 mt-4">Instructions:</h5>
+<ol class="mb-4">
+	<li>Select "sharps" or "flats" to set <strong>accidentals</strong></li>
+	<li>Choose a <strong>key</strong> for the scale</li>
+	<li>Select a preset <strong>scale</strong> or a *custom* scale</li>
+		<ul>
+			<li>For custom scales, enter a name and scale intervals</li>
+			<li>Intervals should include the root note (0) and be seperated by commas</li>
+			<li>For example, the major scale would be: <code>0,2,4,5,7,9,11</code></li>
+		</ul>
+	<li>Select a preset <strong>tuning</strong> or enter a custom tuning</li>
+		<ul>
+			<li>For custom tunings, enter uppercase letters (ex: A, G#, Ab, ...) for each string</li>
+			<li>To change the number of guitar strings, change the tuning</li>
+			<li>Whatever is entered in the Tuned box will be used to make the scale</li>
+		</ul>
+	<li>Choose the <strong>mode</strong> for displaying the scale</li>
+		<ul>
+			<li><em>note</em>: plot the notes on the fretboard</li>
+			<li><em>degree</em>: plot the degree of each note in the scale</li>
+			<li><em>interval</em>: plot the interval from each note to the root note</li>
+		</ul>
+	<li>Click the <strong>Shred</strong> button to build a scale</li>	
+</ol>
+
+<h5 class="mb-2 mt-6"> Shredder scales is also available as a standalone python package</h5>
+<p>The shredderscales package can be found on PyPI here: <a href='https://pypi.org/project/shredderscales/' class="link-underline-primary">shredderscales</a></p>
+<p>use pip for local installation:</p>
+<pre>
+	pip install shredderscales
+</pre>	
+<p></p>
+<p>To report issues or view the source code, please visit shredder-scales on github: <a href='https://github.com/jrw24/shredder-scales'>shredder-scales github</a></p>
+<p></p>
+
 
 {% endblock %}

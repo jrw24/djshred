@@ -63,6 +63,7 @@ class Command(BaseCommand):
 			Notes.objects.create(name=note, accidentals=flats)
 
 		## load scales
+		Scales.objects.create(name='*custom*')
 		avail_scales = list(sc.available_scales.keys())
 		for s in avail_scales:
 			print(s)
