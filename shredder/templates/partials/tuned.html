@@ -1,0 +1,13 @@
+<label>Tuned</label>
+
+{% if tuned == 'Select a tuning' %}
+	<input class="form-control mb-4"
+		type="text" 
+		name="tuned"
+		value="">
+{% else %}
+	<input class="form-control mb-4"
+		type="text" 
+		name="tuned"
+		value="{{tuned}}">
+{% endif %}

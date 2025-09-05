@@ -1,0 +1,42 @@
+
+{% if scale_entry == '*custom*' %}
+
+	<div class="row">
+
+		{% if scale_name == ''%}
+
+			<div class="col-12 col-sm-3">
+				<label>Scale Name</label>
+				<input class="form-control mb-4"
+						type="text" 
+						name="scale_name"
+						value="">
+			</div>
+
+			<div class="col-12 col-sm-5">
+				<label>Scale Intervals</label>
+				<input class="form-control mb-4"
+						type="text" 
+						name="scale_intervals"
+						value="">
+			</div>
+
+		{% else %}
+			<div class="col-12 col-sm-3">
+				<label>Scale Name</label>
+				<input class="form-control mb-4"
+						type="text" 
+						name="scale_name"
+						value="{{scale_name}}">
+			</div>
+
+			<div class="col-12 col-sm-5">
+				<label>Scale Intervals</label>
+				<input class="form-control mb-4"
+						type="text" 
+						name="scale_intervals"
+						value="{{scale_intervals}}">
+			</div>
+		{% endif %}
+
+{% endif %}

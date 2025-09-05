@@ -3,7 +3,7 @@
 
 	{% csrf_token %}
 	<div class="row">
-		<div class="col-2 col-md-2">
+		<div class="col-12 col-sm-2 ">
 			<label >Accidentals</label>
 			
 			{% if shredder_run %}
@@ -34,7 +34,7 @@
 
 		</div>
 
-		<div class="col-1 col-md-1">
+		<div class="col-12 col-sm-2">
 
 			<div id="keys">
 				{% include 'partials/notes_simple.html' %}
@@ -42,10 +42,18 @@
 
 		</div>
 			
-		<div class="col-3 col-md-3">
+		<div class="col-12 col-sm-2">
 			<label>Scale</label>
 			<select class="form-select mb-4"
-				name="scale">
+				name="scale"
+				hx-get="{% url 'custom_scale' %}"
+				hx-trigger="change, load"
+				hx-target="#custom_scale"
+				hx-vals='{
+					"scale_name": "{{shredder_run.scale_name}}",
+					"scale_intervals": "{{shredder_run.scale_intervals}}"
+
+				}'>
 				{% if shredder_run %}
 					<option value="{{shredder_run.scale}}" selected>{{shredder_run.scale}} </option>
 				{% else %}
@@ -57,12 +65,16 @@
 			</select>
 		</div>
 
-		<div class="col-2 col-md-2">
+		<div class="col-12 col-sm-2">
 			<label>Tuning</label>
 			<select class="form-select mb-4"
-				name="tuning">
+				name="tuning"
+				hx-get="{% url 'tuned' %}"
+				hx-trigger="change, load"
+				hx-target="#tuned" 
+				hx-vals='{"current_tune": "{{shredder_run.tuned}}"}'>
 				{% if shredder_run %}
-					<option value="{{shredder_run.tuning}}" selected>{{shredder_run.tuning}} </option>
+					<option value="{{shredder_run.tuned}}" selected>{{shredder_run.tuned}} </option>
 				{% else %}
 					<option selected>Select a tuning</option>
 				{% endif %}
@@ -72,10 +84,17 @@
 			</select>
 		</div>
 		
-		<div class="col-2 col-md-2">
-				<label>Mode</label>
-				<select class="form-select mb-4"
-				name="mode">
+		<div class="col-12 col-sm-2">
+			<div id="tuned">
+				{% include 'partials/tuned.html' %}
+			</div>
+		</div>	
+
+
+		<div class="col-12 col-sm-2">
+			<label>Mode</label>
+			<select class="form-select mb-4"
+			name="mode">
 				{% if shredder_run %}
 					<option value="{{shredder_run.mode}}" selected>{{shredder_run.mode}} </option>
 				{% else %}
@@ -85,13 +104,37 @@
 					<option value="{{m.name}}">{{m.name}}</option>
 				{%endfor%}	
 			</select>
-		</div>
+		</div>		
+	</div>
 
- 		<div class="col-2 col-md-2 align-self-center">
+	<div id="custom_scale">
+		{% include 'partials/custom_scale.html' %}
+	</div>
+
+	<script>
+		var screenWidth = window.innerWidth;
+		var screenHeight = window.innerHeight;
+	</script>
+	<input type="hidden" id="screenWidthInput" name="screenWidth">
+	<input type="hidden" id="screenHeightInput" name="screenHeight">
+
+
+	<div class="row mb-4">
+		<div class="col-2 col-md-2 align-self-center">
 			<button class="btn btn-success me-2" 
 				type="submit"
 				name="shredder_run"
 				>Shred</button>
-		</div>	
-	</div>
+		</div>
+	</div>		
+
 </form>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+	    var screenWidth = window.innerWidth; // Or screen.width
+	    var screenHeight = window.innerHeight;
+	    document.getElementById('screenWidthInput').value = screenWidth;
+	    document.getElementById('screenHeightInput').value = screenHeight;
+	});
+</script>
